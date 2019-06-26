@@ -2,11 +2,7 @@
   "version": 2,
   "name": "williamrobot",
   "builds": [
-    { "src": "./index.js", "use": "@now/node-server" }
-  ],
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/test", "dest": "/" }
+    { "src": "./index.js", "use": "@now/node" }
   ],
   "env": {
     "OPENWEATHER_API_KEY": "@sec_openweather_api_key",
