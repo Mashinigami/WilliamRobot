@@ -21,7 +21,6 @@ const bot = new Telegraf(process.env.TELEGRAM_API_TOKEN);
 
 bot.use((ctx, next) => {
     const start = new Date();
-    console.log(process.env.TELEGRAM_API_TOKEN);
     return next(ctx).then(() => {
         const ms = new Date() - start;
         console.log('Response time %sms', ms)
@@ -34,10 +33,13 @@ bot.use((ctx, next) => {
 // bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 // bot.launch();
 
-bot.command('oldschool', (ctx) => ctx.reply('Hello'))
-bot.command('modern', ({ reply }) => reply('Yo'))
-bot.command('hipster', Telegraf.reply('λ'))
-bot.launch()
+bot.command('o', (ctx) => ctx.reply('Hello'));
+bot.command('modern', ({ reply }) => reply('Yo'));
+bot.command('hipster', Telegraf.reply('λ'));
+bot.launch();
+
+// Export bot handler
+module.exports = bot;
 
 // bot.on('new_chat_members', (msg) => {
 //     bot.sendMessage(msg.chat.id, `Hey ${msg.from.first_name}, welcome to williamrobot!! SHOW ME WHAT YOU GOT!!!!`)
