@@ -10,7 +10,7 @@ const express = require('express'),
 require("dotenv").config();
 
 // const telegram_url = "https://api.telegram.org/bot" + process.env.TELEGRAM_API_TOKEN +"/sendMessage";
-// const openWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+const openWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
 
 //const bot = new TelegramBot(TOKEN, { polling: true });
 const bot = new Telegraf(process.env.TELEGRAM_API_TOKEN);
@@ -36,6 +36,20 @@ bot.use((ctx, next) => {
 bot.command('o', (ctx) => ctx.reply('Hello'));
 bot.command('modern', ({ reply }) => reply('Yo'));
 bot.command('hipster', Telegraf.reply('λ'));
+bot.command('previsao', (ctx) => {
+    console.log(ctx.message.text.split(/ +/));
+    const city = ctx.message.text.replace("/previsao ", "");
+
+    get_forecast(city).then(previsoes => {
+        let previsoesFmt = 'Previsao para ';
+        previsoesFmt = previsoesFmt.concat(previsoes.city.name, "/", previsoes.city.country, "\n");
+        previsoes.list.slice(0,19).forEach(function (previsao) {
+            previsoesFmt = previsoesFmt.concat(previsao.dt_txt, " : ", previsao.weather[0].description, "\n");
+        });
+        console.log(previsoesFmt);
+        ctx.reply(previsoesFmt);
+    });
+});
 bot.launch();
 
 // Export bot handler
@@ -45,15 +59,15 @@ module.exports = bot;
 //     bot.sendMessage(msg.chat.id, `Hey ${msg.from.first_name}, welcome to williamrobot!! SHOW ME WHAT YOU GOT!!!!`)
 // });
 //
-// function get_forecast(city){
-//     let new_url = openWeatherUrl + city+"&lang=pt&appid="+process.env.OPENWEATHER_API_KEY;
-//     return rp(new_url)
-//         .then((body) => {
-//             return JSON.parse(body);
-//         }).catch((err) => {
-//             console.log(err);
-//         })
-// }
+function get_forecast(city){
+    let new_url = openWeatherUrl + city+"&lang=pt&appid="+process.env.OPENWEATHER_API_KEY;
+    return rp(new_url)
+        .then((body) => {
+            return JSON.parse(body);
+        }).catch((err) => {
+            console.log(err);
+        })
+}
 //
 // bot.onText(/\/previsao (.+)/, (msg, match) => {
 //     const chatId = msg.chat.id;
