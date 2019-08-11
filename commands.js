@@ -10,7 +10,29 @@ commandFunctions.comandos = comandos;
 commandFunctions.help = help;
 commandFunctions.clima = clima;
 
+const climaIcon = {
+    "01d":emoji.sunny,
+    "02d":emoji.sun_small_cloud,
+    "03d":emoji.cloud,
+    "04d":emoji.cloud.concat(emoji.cloud),
+    "09d":emoji.rain_cloud,
+    "10d":emoji.sun_behind_rain_cloud,
+    "11d":emoji.thunder_cloud_and_rain,
+    "13d":emoji.snow_cloud,
+    "50d":emoji.fog,
+    "01n":emoji.sunny,
+    "02n":emoji.sun_small_cloud,
+    "03n":emoji.cloud,
+    "04n":emoji.cloud.concat(emoji.cloud),
+    "09n":emoji.rain_cloud,
+    "10n":emoji.sun_behind_rain_cloud,
+    "11n":emoji.thunder_cloud_and_rain,
+    "13n":emoji.snow_cloud,
+    "50n":emoji.fog
+};
+
 const openWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+const openWeatherUrlIcon = "http://openweathermap.org/img/wn/";
 
 function get_forecast(city){
     let new_url = openWeatherUrl + city+"&lang=pt&units=metric&appid="+process.env.OPENWEATHER_API_KEY;
@@ -37,7 +59,7 @@ function comandoPrevisao(ctx){
         previsoesFmt = previsoesFmt.concat(previsoes.city.name, "/", previsoes.city.country, "\n");
 
         previsoes.list.forEach(function (previsao) {
-            previsoesFmt = previsoesFmt.concat(moment(previsao.dt_txt).format('DD/MM HH:mm'), " : ", previsao.weather[0].description, "\n");
+            previsoesFmt = previsoesFmt.concat(moment(previsao.dt_txt).format('DD/MM HH:mm'), " ", climaIcon[previsao.weather[0].icon], previsao.weather[0].description, "\n");
         });
         ctx.reply(previsoesFmt);
     }).catch((err) => ctx.reply(err.message));
@@ -82,7 +104,7 @@ function clima(ctx) {
         });
 
         Object.values(days).forEach(function (day) {
-            climaFmt = climaFmt.concat(day.date, " - ", emoji.arrow_down_small,removeDecimals(day.temp_min), emoji.arrow_up_small, removeDecimals(day.temp_max), " : ", emoji.rain_cloud, removeDecimals(day.humi_min), "%:", removeDecimals(day.humi_max),  "%\n");
+            climaFmt = climaFmt.concat(day.date, " ", emoji.thermometer, emoji.arrow_down_small,removeDecimals(day.temp_min), emoji.arrow_up_small, removeDecimals(day.temp_max), " | ", emoji.rain_cloud, removeDecimals(day.humi_min), "%~", removeDecimals(day.humi_max),  "%\n");
         });
         console.log(climaFmt);
         ctx.reply(climaFmt);
