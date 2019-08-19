@@ -125,7 +125,7 @@ function help(ctx) {
 }
 
 function comandos(ctx){
-    return ctx.reply('/marco\n/help\n/previsao lucerna');
+    return ctx.reply('/comandos\n/hello\n/help\n/previsao lucerna\n/clima passo fundo');
 }
 
 function removeDecimals(string){
