@@ -12,8 +12,10 @@ bot.use((ctx, next) => {
     const start = new Date();
     return next(ctx).then(() => {
         const ms = new Date() - start;
-        console.log(ctx.message.text.split(/ +/));
-        console.log('Response time %sms', ms)
+        if(!isVazio(ctx.message.text)) {
+            console.log(ctx.message.text.split(/ +/));
+            console.log('Response time %sms', ms)
+        }
     })
 });
 
@@ -23,9 +25,13 @@ bot.command('clima', commandFunctions.clima);
 bot.command('hello', commandFunctions.hello);
 bot.command('help', commandFunctions.help);
 bot.command('previsao', commandFunctions.previsao);
-bot.command('previsão', commandFunctions.previsao);
+//bot.command('previsão', commandFunctions.previsao);
 
 bot.launch();
+
+const isVazio = function(value){
+    return (value === null || value === '' || value === undefined);
+};
 
 // Export bot handler
 module.exports = bot;

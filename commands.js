@@ -46,6 +46,11 @@ function get_forecast(city){
 }
 
 function comandoPrevisao(ctx){
+    if(isVazio(ctx.message.text)){
+        ctx.reply('Mensagem vazia');
+        return null;
+    }
+
     console.log(ctx.message.text.split(/ +/));
     const city = ctx.message.text.replace("/previsao ", "").replace("/previsao", "");
 
@@ -66,11 +71,15 @@ function comandoPrevisao(ctx){
 }
 
 function clima(ctx) {
+    if(isVazio(ctx.message.text)){
+        ctx.reply('Mensagem vazia');
+        return null;
+    }
     console.log(ctx.message.text.split(/ +/));
     const city = ctx.message.text.replace("/clima ", "").replace("/clima", "");
 
     if(city.length < 3){
-        ctx.reply('Digite uma cidade valida. ex.: /previsao Azgard');
+        ctx.reply('Digite uma cidade valida. ex.: /clima Azgard');
         return null;
     }
 
@@ -122,5 +131,9 @@ function comandos(ctx){
 function removeDecimals(string){
     return parseFloat(string).toFixed(0);
 }
+
+const isVazio = function(value){
+    return (value === null || value === '' || value === undefined);
+};
 
 module.exports = commandFunctions;
