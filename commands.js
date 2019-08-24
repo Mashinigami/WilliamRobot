@@ -9,6 +9,7 @@ commandFunctions.previsao = comandoPrevisao;
 commandFunctions.comandos = comandos;
 commandFunctions.help = help;
 commandFunctions.clima = clima;
+commandFunctions.conselho = conselho;
 
 const climaIcon = {
     "01d":emoji.sunny,
@@ -33,6 +34,7 @@ const climaIcon = {
 
 const openWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
 const openWeatherUrlIcon = "http://openweathermap.org/img/wn/";
+const conselhoUrl = "https://api.adviceslip.com/advice";
 
 function get_forecast(city){
     let new_url = openWeatherUrl + city+"&lang=pt&units=metric&appid="+process.env.OPENWEATHER_API_KEY;
@@ -118,6 +120,16 @@ function clima(ctx) {
         console.log(climaFmt);
         ctx.reply(climaFmt);
     }).catch((err) => ctx.reply(err.message));
+}
+
+function conselho(ctx) {
+    return rp(conselhoUrl).then((body) => {
+        console.log(JSON.parse(body).slip.advice);
+        ctx.reply(JSON.parse(body).slip.advice);
+    }).catch((err) => {
+        console.log(err);
+        throw new Error(err);
+    })
 }
 
 function help(ctx) {

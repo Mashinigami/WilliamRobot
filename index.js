@@ -25,6 +25,7 @@ bot.command('clima', commandFunctions.clima);
 bot.command('hello', commandFunctions.hello);
 bot.command('help', commandFunctions.help);
 bot.command('previsao', commandFunctions.previsao);
+bot.command('conselho', commandFunctions.conselho);
 //bot.command('previsão', commandFunctions.previsao);
 
 bot.launch();
