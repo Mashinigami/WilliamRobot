@@ -124,11 +124,11 @@ function clima(ctx) {
 
 function conselho(ctx) {
     return rp(conselhoUrl).then((body) => {
-        console.log(JSON.parse(body).slip.advice);
+        console.log(body);
         ctx.reply(JSON.parse(body).slip.advice);
     }).catch((err) => {
         console.log(err);
-        throw new Error(err);
+        ctx.reply("Não foi possível processar a resposta, tente novamente");
     })
 }
 
